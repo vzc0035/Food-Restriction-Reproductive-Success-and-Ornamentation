@@ -10,6 +10,10 @@
 library(nlme)
 library(lme4)
 
+####upload file
+####filename: ProcB_Reproductive Success.csv
+repsuccess=read.csv(file.choose())
+
 ####number of males given
 results=glm(MalesGiven~FemaleTreatment,data=repsuccess,family=poisson,na.action=na.exclude)summary(results)
 #Coefficients:
@@ -39,6 +43,16 @@ summary(resultsclutch)
 #---
 #Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
+####percent fertility
+results=lm(PercFertility~FemaleTreatment,data=repsuccess,na.action=na.exclude)
+summary(results)
+#Coefficients:
+#                 Estimate Std. Error t value Pr(>|t|)    
+#(Intercept)        82.356      7.037  11.704 6.08e-09 ***
+#FemaleTreatmentS    7.019     10.257   0.684    0.504    
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 ####hatching success
 results=lm(HatchingSuccess~FemaleTreatment,data=repsuccess,na.action=na.exclude)
 summary(results)
@@ -56,16 +70,6 @@ summary(resultsfledge)
 #                 Estimate Std. Error t value Pr(>|t|)    
 #(Intercept)         95.93      11.72   8.184 1.77e-07 ***
 #FemaleTreatmentS   -48.50      15.81  -3.069  0.00662 ** 
-#---
-#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-####percent fertility
-results=lm(PercFertility~FemaleTreatment,data=repsuccess,na.action=na.exclude)
-summary(results)
-#Coefficients:
-#                 Estimate Std. Error t value Pr(>|t|)    
-#(Intercept)        82.356      7.037  11.704 6.08e-09 ***
-#FemaleTreatmentS    7.019     10.257   0.684    0.504    
 #---
 #Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
