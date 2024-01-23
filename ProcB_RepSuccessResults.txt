@@ -1,0 +1,93 @@
+###############################################################
+##Title: Food restriction during development impairs 
+##reproductive success but not ornamentation in zebra finches
+####Reproductive success results
+##Author: Victoria M. Coutts
+##Date last modified: January 23, 2024
+###############################################################
+
+####load necessary packages
+library(nlme)
+library(lme4)
+
+####number of males given
+results=glm(MalesGiven~FemaleTreatment,data=repsuccess,family=poisson,na.action=na.exclude)summary(results)
+#Coefficients:
+#                 Estimate Std. Error z value Pr(>|z|)  
+#(Intercept)        0.5108     0.2582   1.978   0.0479 *
+#FemaleTreatmentS   0.2268     0.3319   0.683   0.4944  
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+####time between nest making and egg laying
+results=glm(TimeLay~FemaleTreatment,data=repsuccess,family=poisson,na.action=na.exclude)
+summary(results)
+#Coefficients:
+#                 Estimate Std. Error z value Pr(>|z|)    
+#(Intercept)        1.3581     0.1690   8.035 9.38e-16 ***
+#FemaleTreatmentS   0.2000     0.2343   0.854    0.393    
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+####clutch size
+resultsclutch=glm(ClutchSize~FemaleTreatment,data=repsuccess,family=poisson,na.action=na.exclude)
+summary(resultsclutch)
+#Coefficients:
+#                Estimate Std. Error z value Pr(>|z|)    
+#(Intercept)        1.5870     0.1508  10.527   <2e-16 ***
+#FemaleTreatmentS  -0.3473     0.2215  -1.568    0.117    
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+####hatching success
+results=lm(HatchingSuccess~FemaleTreatment,data=repsuccess,na.action=na.exclude)
+summary(results)
+#Coefficients:
+#                 Estimate Std. Error t value Pr(>|t|)    
+#(Intercept)        79.577      9.588   8.299 5.46e-07 ***
+#FemaleTreatmentS   -5.202     13.977  -0.372    0.715    
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+####fledging success
+resultsfledge=lm(FledgingSuccess~FemaleTreatment,data=repsuccess,na.action=na.exclude)
+summary(resultsfledge)
+#Coefficients:
+#                 Estimate Std. Error t value Pr(>|t|)    
+#(Intercept)         95.93      11.72   8.184 1.77e-07 ***
+#FemaleTreatmentS   -48.50      15.81  -3.069  0.00662 ** 
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+####percent fertility
+results=lm(PercFertility~FemaleTreatment,data=repsuccess,na.action=na.exclude)
+summary(results)
+#Coefficients:
+#                 Estimate Std. Error t value Pr(>|t|)    
+#(Intercept)        82.356      7.037  11.704 6.08e-09 ***
+#FemaleTreatmentS    7.019     10.257   0.684    0.504    
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+####brood mass at day 0
+resultsbrood=lm(D0BroodMass~FemaleTreatment+Fem120Mass,data=repsuccess,na.action=na.exclude)
+summary(resultsbrood)
+#Coefficients:
+#                 Estimate Std. Error t value Pr(>|t|)
+#(Intercept)       -1.9069     4.1297  -0.462    0.651
+#FemaleTreatmentS  -1.1458     0.7623  -1.503    0.154
+#Fem120Mass         0.3418     0.2688   1.272    0.223
+
+####brood mass at day 10
+resultsbrood=lm(D10BroodMass~FemaleTreatment+Fem120Mass,data=repsuccess,na.action=na.exclude)
+summary(resultsbrood)
+#Coefficients:
+#                 Estimate Std. Error t value Pr(>|t|)  
+#(Intercept)       -20.963     42.892  -0.489   0.6317  
+#FemaleTreatmentS  -14.979      8.059  -1.859   0.0816 .
+#Fem120Mass          3.731      2.775   1.344   0.1976  
+#---
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+
