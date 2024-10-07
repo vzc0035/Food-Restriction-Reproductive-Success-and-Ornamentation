@@ -1,0 +1,417 @@
+###############################################################
+##Title: Food restriction during development impairs 
+##reproductive success but not ornamentation in zebra finches
+####Beak and cheek patch results
+##Author: Victoria M. Coutts
+##Date last modified: October 7, 2024
+###############################################################
+
+
+#################
+##LOAD PACKAGES##
+#################
+library(nlme)
+
+
+####################
+##TEST ASSUMPTIONS##
+####################
+cn.test.cpasymmhue=lme(CheekHueAsymmetry1~ColorWheelHue+Treatment+as.factor(Age)+as.factor(Age):Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+plot(offspringbcpno35$CheekHueAsymmetry1[1:length(residuals(cn.test.cpasymmhue))], residuals(cn.test.cpasymmhue))
+abline(a=0,b=0)
+hist(residuals(cn.test.cpasymmhue))
+
+cn.test.cpasymmsat=lme(CheekSaturationAsymmetry1~ColorWheelSaturation+Treatment+as.factor(Age)+as.factor(Age):Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+plot(offspringbcpno35$CheekSaturationAsymmetry1[1:length(residuals(cn.test.cpasymmsat))], residuals(cn.test.cpasymmsat))
+abline(a=0,b=0)
+hist(residuals(cn.test.cpasymmsat))
+
+cn.test.cpasymmval=lme(CheekValueAsymmetry1~ColorWheelValue+Treatment+as.factor(Age)+as.factor(Age):Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+plot(offspringbcpno35$CheekValueAsymmetry1[1:length(residuals(cn.test.cpasymmval))], residuals(cn.test.cpasymmval))
+abline(a=0,b=0)
+hist(residuals(cn.test.cpasymmval))
+
+cn.test.cpasymmarea=lme(CheekAreaAsymmetry1~Treatment+as.factor(Age)+as.factor(Age):Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+plot(offspringbcpno35$CheekAreaAsymmetry1[1:length(residuals(cn.test.cpasymmarea))], residuals(cn.test.cpasymmarea))
+abline(a=0,b=0)
+hist(residuals(cn.test.cpasymmarea))
+
+cn.test.barea=lme(AvgBeakArea~as.factor(Age)*Treatment+Sex,data=offspringbcp,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+plot(offspringbcp$AvgBeakArea[1:length(residuals(cn.test.barea))], residuals(cn.test.barea))
+abline(a=0,b=0)
+hist(residuals(cn.test.barea))
+
+cn.test.cparea=lme(AvgCheekArea~as.factor(Age)*Treatment,data=offspringbcp,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+plot(offspringbcp$AvgCheekArea[1:length(residuals(cn.test.cparea))], residuals(cn.test.cparea))
+abline(a=0,b=0)
+hist(residuals(cn.test.cparea))
+
+cn.test.b120hue=lme(AvgBeakHue~ColorWheelHue+Treatment+Sex,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+plot(offspringbcp$AvgBeakHue[1:length(residuals(cn.test.b120hue))], residuals(cn.test.b120hue))
+abline(a=0,b=0)
+hist(residuals(cn.test.b120hue))
+
+cn.test.b120sat=lme(AvgBeakSat~ColorWheelSaturation+Treatment+Sex,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+plot(offspringbcp$AvgBeakSat[1:length(residuals(cn.test.b120sat))], residuals(cn.test.b120sat))
+abline(a=0,b=0)
+hist(residuals(cn.test.b120sat))
+
+cn.test.b120val=lme(AvgBeakVal~ColorWheelValue+Treatment+Sex,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+plot(offspringbcp$AvgBeakVal[1:length(residuals(cn.test.b120val))], residuals(cn.test.b120val))
+abline(a=0,b=0)
+hist(residuals(cn.test.b120val))
+
+cn.test.cp120hue=lme(AvgCheekHue~ColorWheelHue+Treatment,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+plot(offspringbcp$AvgCheekHue[1:length(residuals(cn.test.cp120hue))], residuals(cn.test.cp120hue))
+abline(a=0,b=0)
+hist(residuals(cn.test.cp120hue))
+
+cn.test.cp120sat=lme(AvgCheekSat~ColorWheelSaturation+Treatment,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+plot(offspringbcp$AvgCheekSat[1:length(residuals(cn.test.cp120sat))], residuals(cn.test.cp120sat))
+abline(a=0,b=0)
+hist(residuals(cn.test.cp120sat))
+
+cn.test.cp120val=lme(AvgCheekVal~ColorWheelValue+Treatment,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+plot(offspringbcp$AvgCheekVal[1:length(residuals(cn.test.cp120val))], residuals(cn.test.cp120val))
+abline(a=0,b=0)
+hist(residuals(cn.test.cp120val))
+
+
+###############################################
+##HYPOTHESIS 1: TREATMENT EFFECT ON ASYMMETRY##
+###############################################
+###Start with this filename: FrontPhys_Beak and Cheek Patch Pics_MalesOnly_no35.csv
+offspringbcpno35=read.csv(file.choose())
+##Cheek Patch Hue
+resultscphue=lme(CheekHueAsymmetry1~ColorWheelHue+Treatment+as.factor(Age)+as.factor(Age):Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+anova(resultscphue,type='marginal')
+#                         numDF denDF   F-value p-value
+#(Intercept)                  1   123  0.281999  0.5964
+#ColorWheelHue                1   123  0.295398  0.5878
+#Treatment                    1    18 21.281827  0.0002
+#as.factor(Age)               4   123 10.868341  <.0001
+#Treatment:as.factor(Age)     4   123  6.960580  <.0001
+
+resultscphue45=lme(CheekHueAsymmetry1~ColorWheelHue+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="45"),na.action=na.exclude)
+anova(resultscphue45,type='marginal')
+#              numDF denDF  F-value p-value
+#(Intercept)       1     5 32.05886  0.0024
+#ColorWheelHue     1     2 33.84156  0.0283
+#Treatment         1     5  4.86195  0.0786
+
+resultscphue60=lme(CheekHueAsymmetry1~ColorWheelHue+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="60"),na.action=na.exclude)
+anova(resultscphue60,type='marginal')
+#              numDF denDF  F-value p-value
+#(Intercept)       1    18 0.338927  0.5677
+#ColorWheelHue     1    18 0.369972  0.5506
+#Treatment         1    17 7.659876  0.0132
+
+resultscphue75=lme(CheekHueAsymmetry1~ColorWheelHue+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="75"),na.action=na.exclude)
+anova(resultscphue75,type='marginal')
+#              numDF denDF   F-value p-value
+#(Intercept)       1    21 0.2524331  0.6206
+#ColorWheelHue     1    21 0.1772795  0.6780
+#Treatment         1    18 2.4116353  0.1378
+
+resultscphue90=lme(CheekHueAsymmetry1~ColorWheelHue+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="90"),na.action=na.exclude)
+anova(resultscphue90,type='marginal')
+#              numDF denDF   F-value p-value
+#(Intercept)       1    21 0.8382012  0.3703
+#ColorWheelHue     1    21 1.2849793  0.2698
+#Treatment         1    18 0.0090487  0.9253
+
+resultscphue120=lme(CheekHueAsymmetry1~ColorWheelHue+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="120"),na.action=na.exclude)
+anova(resultscphue120,type='marginal')
+#              numDF denDF   F-value p-value
+#(Intercept)       1    21 0.9861802  0.3320
+#ColorWheelHue     1    21 1.4734248  0.2383
+#Treatment         1    18 0.0912254  0.7661
+
+##Cheek Patch Saturation
+resultscpsat=lme(CheekSaturationAsymmetry1~ColorWheelSaturation+Treatment+as.factor(Age)+as.factor(Age):Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+anova(resultscpsat,type='marginal')
+#                         numDF denDF   F-value p-value
+#(Intercept)                  1   123  1.307315  0.2551
+#ColorWheelSaturation         1   123  0.284151  0.5950
+#Treatment                    1    18  4.962502  0.0389
+#as.factor(Age)               4   123 10.800390  <.0001
+#Treatment:as.factor(Age)     4   123  2.584888  0.0403
+
+resultscpsat45=lme(CheekSaturationAsymmetry1~ColorWheelSaturation+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="45"),na.action=na.exclude)
+anova(resultscpsat45,type='marginal')
+#                     numDF denDF   F-value p-value
+#(Intercept)              1     5 0.8530043  0.3981
+#ColorWheelSaturation     1     2 0.8882205  0.4454
+#Treatment                1     5 0.7995041  0.4122
+
+resultscpsat60=lme(CheekSaturationAsymmetry1~ColorWheelSaturation+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="60"),na.action=na.exclude)
+anova(resultscpsat60,type='marginal')
+#                     numDF denDF  F-value p-value
+#(Intercept)              1    18 0.314637  0.5818
+#ColorWheelSaturation     1    18 0.355566  0.5584
+#Treatment                1    17 6.403273  0.0216
+
+resultscpsat75=lme(CheekSaturationAsymmetry1~ColorWheelSaturation+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="75"),na.action=na.exclude)
+anova(resultscpsat75,type='marginal')
+#                     numDF denDF   F-value p-value
+#(Intercept)              1    21 0.8342359  0.3714
+#ColorWheelSaturation     1    21 0.7640790  0.3919
+#Treatment                1    18 2.0195629  0.1724
+
+resultscpsat90=lme(CheekSaturationAsymmetry1~ColorWheelSaturation+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="90"),na.action=na.exclude)
+anova(resultscpsat90,type='marginal')
+#                     numDF denDF   F-value p-value
+#(Intercept)              1    21 0.4640329  0.5032
+#ColorWheelSaturation     1    21 0.3093473  0.5840
+#Treatment                1    18 0.5328958  0.4748
+
+resultscpsat120=lme(CheekSaturationAsymmetry1~ColorWheelSaturation+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="120"),na.action=na.exclude)
+anova(resultscpsat120,type='marginal')
+#                     numDF denDF   F-value p-value
+#(Intercept)              1    21 2.9222005  0.1021
+#ColorWheelSaturation     1    21 2.6688146  0.1172
+#Treatment                1    18 0.2229154  0.6425
+
+##Cheek Patch Value
+resultscpvalue=lme(CheekValueAsymmetry1~ColorWheelValue+Treatment+as.factor(Age)+as.factor(Age):Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+anova(resultscpvalue,type='marginal')
+#                         numDF denDF   F-value p-value
+#(Intercept)                  1   123  4.275988  0.0408
+#ColorWheelValue              1   123  0.369305  0.5445
+#Treatment                    1    18 11.563774  0.0032
+#as.factor(Age)               4   123  9.912503  <.0001
+#Treatment:as.factor(Age)     4   123  4.650326  0.0016
+
+resultscpval45=lme(CheekValueAsymmetry1~ColorWheelValue+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="45"),na.action=na.exclude)
+anova(resultscpval45,type='marginal')
+#                numDF denDF  F-value p-value
+#(Intercept)         1     5 1.666393  0.2532
+#ColorWheelValue     1     2 1.394095  0.3591
+#Treatment           1     5 1.191815  0.3248
+
+resultscpval60=lme(CheekValueAsymmetry1~ColorWheelValue+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="60"),na.action=na.exclude)
+anova(resultscpval60,type='marginal')
+#                numDF denDF  F-value p-value
+#(Intercept)         1    18 0.144372  0.7084
+#ColorWheelValue     1    18 0.203341  0.6574
+#Treatment           1    17 7.718548  0.0129
+
+resultscpval75=lme(CheekValueAsymmetry1~ColorWheelValue+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="75"),na.action=na.exclude)
+anova(resultscpval75,type='marginal')
+#                numDF denDF  F-value p-value
+#(Intercept)         1    21 0.065953  0.7998
+#ColorWheelValue     1    21 0.006318  0.9374
+#Treatment           1    18 4.123100  0.0573
+
+resultscpval90=lme(CheekValueAsymmetry1~ColorWheelValue+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="90"),na.action=na.exclude)
+anova(resultscpval90,type='marginal')
+#                numDF denDF  F-value p-value
+#(Intercept)         1    21 9.266257  0.0062
+#ColorWheelValue     1    21 7.846315  0.0107
+#Treatment           1    18 0.370857  0.5501
+
+resultscpval120=lme(CheekValueAsymmetry1~ColorWheelValue+Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,subset=c(Age=="120"),na.action=na.exclude)
+anova(resultscpval120,type='marginal')
+#                numDF denDF    F-value p-value
+#(Intercept)         1    21 0.01194812  0.9140
+#ColorWheelValue     1    21 0.06123661  0.8070
+#Treatment           1    18 0.09742112  0.7585
+
+##Cheek Patch Area
+resultscparea=lme(CheekAreaAsymmetry1~Treatment+as.factor(Age)+as.factor(Age):Treatment,data=offspringbcpno35,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+anova(resultscparea,type='marginal')
+#                         numDF denDF   F-value p-value
+#(Intercept)                  1   142 0.4421562  0.5072
+#Treatment                    1    20 0.0058290  0.9399
+#as.factor(Age)               4   142 2.4655888  0.0477
+#Treatment:as.factor(Age)     4   142 2.2353520  0.0682
+
+#################################################
+##HYPOTHESIS 2: TREATMENT EFFECT ON DEVELOPMENT##
+#################################################
+###Upload dataset that includes 35 dph
+###filename: FrontPhys_Beak and Cheek Patch Pics.csv
+offspringbcp=read.csv(file.choose())
+##Beak Area
+resultsbeakarea1=lme(AvgBeakArea~as.factor(Age)*Treatment+Sex+Sex:Treatment,data=offspringbcp,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+anova(resultsbeakarea1,type='marginal')
+#                         numDF denDF   F-value p-value
+#(Intercept)                  1   407  25.33934  <.0001
+#as.factor(Age)               5   407 141.04820  <.0001
+#Treatment                    1    21   1.25332  0.2756
+#Sex                          1    60   0.07959  0.7788
+#as.factor(Age):Treatment     5   407   3.15250  0.0084
+#Treatment:Sex                1    60   0.11057  0.7407
+
+##Sex:Treatment interaction is above 0.15; remove
+
+resultsbeakarea1=lme(AvgBeakArea~as.factor(Age)*Treatment+Sex,data=offspringbcp,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+anova(resultsbeakarea1,type='marginal')
+#                         numDF denDF   F-value p-value
+#(Intercept)                  1   407  27.33414  <.0001
+#as.factor(Age)               5   407 141.06189  <.0001
+#Treatment                    1    21   1.17943  0.2898
+#Sex                          1    61   0.51289  0.4766
+#as.factor(Age):Treatment     5   407   3.15610  0.0083
+
+resultsbeakarea35=lme(AvgBeakArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="35"),na.action=na.exclude)
+anova(resultscheekarea35,type='marginal')
+#            numDF denDF  F-value p-value
+#(Intercept)     1    61 43.73289  <.0001
+#Treatment       1    21  0.99879   0.329
+
+resultsbeakarea45=lme(AvgBeakArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="45"),na.action=na.exclude)
+anova(resultscheekarea45,type='marginal')
+#            numDF denDF   F-value p-value
+#(Intercept)     1    61 140.83143  <.0001
+#Treatment       1    21   0.23123  0.6356
+
+resultsbeakarea60=lme(AvgBeakArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="60"),na.action=na.exclude)
+anova(resultscheekarea60,type='marginal')
+#            numDF denDF  F-value p-value
+#(Intercept)     1    61 463.8726  <.0001
+#Treatment       1    21   2.8903  0.1039
+
+resultsbeakarea75=lme(AvgBeakArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="75"),na.action=na.exclude)
+anova(resultscheekarea75,type='marginal')
+#            numDF denDF  F-value p-value
+#(Intercept)     1    61 425.4772  <.0001
+#Treatment       1    21   0.0266   0.872
+
+resultsbeakarea90=lme(AvgBeakArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="90"),na.action=na.exclude)
+anova(resultscheekarea90,type='marginal')
+#            numDF denDF  F-value p-value
+#(Intercept)     1    61 491.9444  <.0001
+#Treatment       1    21   0.6389  0.4331
+
+resultsbeakarea120=lme(AvgBeakArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="120"),na.action=na.exclude)
+anova(resultscheekarea120,type='marginal')
+            numDF denDF  F-value p-value
+(Intercept)     1    59 634.6089  <.0001
+Treatment       1    21   2.8965  0.1035
+
+##Cheek Patch Area
+resultscheekarea=lme(AvgCheekArea~as.factor(Age)*Treatment,data=offspringbcp,random=~1|Nest/BirdID,correlation=corAR1(),na.action=na.exclude)
+anova(resultscheekarea,type='marginal')
+#                         numDF denDF   F-value p-value
+#(Intercept)                  1   224   0.00056  0.9811
+#as.factor(Age)               5   224 148.83356  <.0001
+#Treatment                    1    20   0.00285  0.9580
+#as.factor(Age):Treatment     5   224   7.73425  <.0001
+
+resultscheekarea35=lme(AvgCheekArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="35"),na.action=na.exclude)
+anova(resultscheekarea35,type='marginal')
+#            numDF denDF  F-value p-value
+#(Intercept)     1    25 3.692986  0.0661
+#Treatment       1    20 1.655185  0.2129
+
+resultscheekarea45=lme(AvgCheekArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="45"),na.action=na.exclude)
+anova(resultscheekarea45,type='marginal')
+#            numDF denDF   F-value p-value
+#(Intercept)     1    24 16.159039  0.0005
+#Treatment       1    20  6.046594  0.0232
+
+resultscheekarea60=lme(AvgCheekArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="60"),na.action=na.exclude)
+anova(resultscheekarea60,type='marginal')
+#            numDF denDF  F-value p-value
+#(Intercept)     1    25 56.55662  <.0001
+#Treatment       1    20  7.49924  0.0127
+
+resultscheekarea75=lme(AvgCheekArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="75"),na.action=na.exclude)
+anova(resultscheekarea75,type='marginal')
+#            numDF denDF   F-value p-value
+#(Intercept)     1    25 118.39603  <.0001
+#Treatment       1    20   5.13535  0.0347
+
+resultscheekarea90=lme(AvgCheekArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="90"),na.action=na.exclude)
+anova(resultscheekarea90,type='marginal')
+#            numDF denDF  F-value p-value
+#(Intercept)     1    25 413.6079  <.0001
+#Treatment       1    20   1.2747  0.2722
+
+resultscheekarea120=lme(AvgCheekArea~Treatment,data=offspringbcp,random=~1|Nest/BirdID,subset=c(Age=="120"),na.action=na.exclude)
+anova(resultscheekarea120,type='marginal')
+#            numDF denDF  F-value p-value
+#(Intercept)     1    47 338.1499  <.0001
+#Treatment       1    20   0.2135   0.649
+
+
+############################################################################
+##HYPOTHESIS 3: TREATMENT EFFECT ON FINAL SECONDARY SEXUAL CHARACTERISTICS##
+############################################################################
+##Beak Hue
+results120beakhue=lme(AvgBeakHue~ColorWheelHue+Treatment+Sex+Sex:Treatment,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+anova(results120beakhue,type='marginal')
+#              numDF denDF   F-value p-value
+#(Intercept)       1    50   2.90855  0.0943
+#ColorWheelHue     1    50  13.15732  0.0007
+#Treatment         1    19   0.50496  0.4860
+#Sex               1    50 149.28196  <.0001
+#Treatment:Sex     1    50   0.00308  0.9560
+
+##Sex:Treatment interaction is above 0.15; remove 
+
+results120beakhue=lme(AvgBeakHue~ColorWheelHue+Treatment+Sex,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+anova(results120beakhue,type='marginal')
+#              numDF denDF   F-value p-value
+#(Intercept)       1    51   2.94472  0.0922
+#ColorWheelHue     1    51  13.31528  0.0006
+#Treatment         1    19   0.82163  0.3761
+#Sex               1    51 288.05594  <.0001
+
+##Beak Saturation
+results120beaksat=lme(AvgBeakSat~ColorWheelSaturation+Treatment+Sex+Sex:Treatment,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+anova(results120beaksat,type='marginal')
+#                     numDF denDF  F-value p-value
+#(Intercept)              1    50 7.255659  0.0096
+#ColorWheelSaturation     1    50 0.075135  0.7851
+#Treatment                1    19 0.945943  0.3430
+#Sex                      1    50 3.760711  0.0581
+#Treatment:Sex            1    50 2.686668  0.1075
+
+##Beak Value
+results120beakval=lme(AvgBeakVal~ColorWheelValue+Treatment+Sex+Sex:Treatment,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+anova(results120beakval,type='marginal')
+#                numDF denDF   F-value p-value
+#(Intercept)         1    50 20.069168  <.0001
+#ColorWheelValue     1    50 18.007621  0.0001
+#Treatment           1    19  0.007046  0.9340
+#Sex                 1    50 26.682591  <.0001
+#Treatment:Sex       1    50  0.973778  0.3285
+
+##Sex:Treatment interaction is above 0.15; remove
+
+results120beakval=lme(AvgBeakVal~ColorWheelValue+Treatment+Sex,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+anova(results120beakval,type='marginal')
+#                numDF denDF  F-value p-value
+#(Intercept)         1    51 19.05897  0.0001
+#ColorWheelValue     1    51 18.52840  0.0001
+#Treatment           1    19  0.37606  0.5470
+#Sex                 1    51 38.17138  <.0001
+
+##CP Hue
+results120cphue=lme(AvgCheekHue~ColorWheelHue+Treatment,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+anova(results120cphue,type='marginal')
+#              numDF denDF  F-value p-value
+#(Intercept)       1    21 0.043876  0.8361
+#ColorWheelHue     1    21 7.679547  0.0114
+#Treatment         1    18 1.069692  0.3147
+
+##CP Saturation
+results120cpsat=lme(AvgCheekSat~ColorWheelSaturation+Treatment,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+anova(results120cpsat,type='marginal')
+#                     numDF denDF   F-value p-value
+#(Intercept)              1    21 0.0840938  0.7747
+#ColorWheelSaturation     1    21 2.7161773  0.1142
+#Treatment                1    18 0.3229443  0.5769
+
+##CP Value
+results120cpval=lme(AvgCheekVal~ColorWheelValue+Treatment,data=offspringbcp,subset=c(Age=="120"),random=~1|Nest/BirdID,na.action=na.exclude)
+anova(results120cpval,type='marginal')
+#                numDF denDF   F-value p-value
+#(Intercept)         1    21  0.010099  0.9209
+#ColorWheelValue     1    21 14.077556  0.0012
+#Treatment           1    18  1.325834  0.2646
+
+
+
