@@ -1,6 +1,6 @@
-# Proc-B-Food-Restriction-Reproductive-Success-and-Ornamentation
+# Food-Restriction-Reproductive-Success-and-Ornamentation
 
-This repository is in compliance with a manuscript in preparation. Please do not download this data and submit it as your own.
+This repository is in compliance with a manuscript in review. Please do not download this data and submit it as your own.
 
 There are two main facets of this project:
 1) Investigating the effects of developmental food restriction on reproductive effort, and:
