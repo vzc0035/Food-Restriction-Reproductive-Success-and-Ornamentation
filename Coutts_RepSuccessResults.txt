@@ -107,10 +107,10 @@ results=lm(HatchingSuccess~FemaleTreatment,data=repsuccess,na.action=na.exclude)
 summary(results)
 #Coefficients:
 #                 Estimate Std. Error t value Pr(>|t|)    
-#(Intercept)        79.577      9.588   8.299 5.46e-07 ***
-#FemaleTreatmentS   -5.202     13.977  -0.372    0.715    
+#(Intercept)       100.000      7.981  12.529 2.39e-09 ***
+#FemaleTreatmentS  -15.000     11.635  -1.289    0.217    
 #---
-#Signif. codes:  0  ***  0.001  **  0.01  *  0.05  .  0.1     1
+#Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 #Residual standard error: 23.94 on 15 degrees of freedom
 
 ####fledging success
